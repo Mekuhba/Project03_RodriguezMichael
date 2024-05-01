@@ -8,12 +8,15 @@ public class RProtocolWindow : EditorWindow
     private GameObject targetObject;
     public DefaultAsset[] folderObjects;
 
-    // Add a menu item named "Custom Tool" to the Window menu
+    // Add a tool to the Window menu
     [MenuItem("Window/R-Protocol Tool")]
     public static void ShowWindow()
     {
         // Show existing window instance. If one doesn't exist, create one.
-        EditorWindow.GetWindow(typeof(RProtocolWindow));
+        RProtocolWindow window = (RProtocolWindow)EditorWindow.GetWindow(typeof(RProtocolWindow));
+
+        // Initialize the folderObjects array
+        window.folderObjects = new DefaultAsset[1];
     }
 
     // Called when the GUI needs to be drawn
@@ -23,7 +26,7 @@ public class RProtocolWindow : EditorWindow
         targetObject = (GameObject)EditorGUILayout.ObjectField("Randomize Target Object", targetObject, typeof(GameObject), true);
 
         ////////////// Begin a horizontal layout ////////////////////
-        // LABEL: RANDOMIZE AND CLEAR SELECTIONS BUTTONS
+        // LABEL: RANDOMIZE AND CLEAR AND ROOT BUTTONS
         GUILayout.BeginHorizontal();
 
         // Draw the "Randomize" button
@@ -54,26 +57,26 @@ public class RProtocolWindow : EditorWindow
         }
     }
 
+    // Clear all root folder fields except the first one
     private void ClearFolders()
     {
-        // Clear all root folder fields except the first one
         if (folderObjects.Length > 1)
         {
             folderObjects = new DefaultAsset[] { folderObjects[0] };
         }
     }
 
+    // Add a new root folder field
     private void AddRootFolder()
     {
-        // Add a new root folder field
         DefaultAsset[] newArray = new DefaultAsset[folderObjects.Length + 1];
         folderObjects.CopyTo(newArray, 0);
         folderObjects = newArray;
     }
 
+    // Clear existing components on the target object
     private void RandomizeSelections()
     {
-        // Clear existing components on the target object
         foreach (var component in targetObject.GetComponents<MonoBehaviour>())
         {
             DestroyImmediate(component);
