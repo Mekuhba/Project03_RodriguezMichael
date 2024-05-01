@@ -85,10 +85,11 @@ public class RProtocolWindow : EditorWindow
             // Get the path of the folder
             string folderPath = AssetDatabase.GetAssetPath(folderObject);
 
-            // Find all script files within the folder
+            ///////////////////////// SECTION FOR ADDING SCRIPTS //////////////////////////////
+            // Find all script files within a folder
             string[] scriptGUIDs = AssetDatabase.FindAssets("t:MonoScript", new[] { folderPath });
 
-            // If there are script files in the folder, select one randomly and add it as a component
+            //select one script randomly and add it as a component to target object
             if (scriptGUIDs.Length > 0)
             {
                 string randomScriptGUID = scriptGUIDs[Random.Range(0, scriptGUIDs.Length)];
@@ -96,11 +97,13 @@ public class RProtocolWindow : EditorWindow
                 var randomScript = AssetDatabase.LoadAssetAtPath<MonoScript>(randomScriptPath);
                 targetObject.AddComponent(randomScript.GetClass());
             }
+            ///////////////////////// SECTION END ////////////////////////////////////////////
 
-            // Find all material files within the folder
+            //////////////////////// SECTION FOR ADDING MATERIALS ////////////////////////////
+            // Find all material files within a folder
             string[] materialGUIDs = AssetDatabase.FindAssets("t:Material", new[] { folderPath });
 
-            // If there are material files in the folder, select one randomly and apply it to the target object
+            // If there are material files in a folder, select one randomly and apply it to the target object
             if (materialGUIDs.Length > 0)
             {
                 string randomMaterialGUID = materialGUIDs[Random.Range(0, materialGUIDs.Length)];
@@ -117,6 +120,11 @@ public class RProtocolWindow : EditorWindow
                     Debug.LogWarning("Target object does not have a Renderer component.");
                 }
             }
+            /////////////////////// SECTION END ///////////////////////////////////////////////
+            
+            ////////////////////// ADD ADDITIONAL SECTION FOR OTHER ITEM TYPES ///////////////
+            
+            ///////////////////// SECTION END ////////////////////////////////////////////////
         }
     }
 }
